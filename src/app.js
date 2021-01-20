@@ -5,30 +5,31 @@ import AppRouter from "./routers/AppRouter";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import configureStore from "./store/configureStore";
-import { addExpense } from "./actions/expenses";
+import { startSetExpenses } from "./actions/expenses";
 import { setTextFilter } from "./actions/filters";
 import getVisibleExpenses from "./selectors/expenses";
+import firebase from "./firebase/firebase";
 
 const store = configureStore();
 
-console.log(store.getState());
+// console.log(store.getState());
 
-store.subscribe(() => {
-    const state = store.getState();
-    const visible = getVisibleExpenses(state.expenses, state.filters);
-    console.log(visible);
-});
+// store.subscribe(() => {
+//     const state = store.getState();
+//     const visible = getVisibleExpenses(state.expenses, state.filters);
+//     console.log(visible);
+// });
 
-const e1 = store.dispatch(
-    addExpense({ description: "BILL: water", amount: 95000, createdAt: 100 })
-);
+// const e1 = store.dispatch(
+//     addExpense({ description: "BILL: water", amount: 95000, createdAt: 100 })
+// );
 
-store.dispatch(
-    addExpense({ description: "rent", amount: 9500, createdAt: 1000 })
-);
-const e2 = store.dispatch(
-    addExpense({ description: "gas bill", amount: 2200, createdAt: 100 })
-);
+// store.dispatch(
+//     addExpense({ description: "rent", amount: 9500, createdAt: 1000 })
+// );
+// const e2 = store.dispatch(
+//     addExpense({ description: "gas bill", amount: 2200, createdAt: 100 })
+// );
 
 // store.dispatch(setTextFilter("water"));
 // setTimeout(() => {
@@ -69,4 +70,8 @@ const jsx = (
 //     document.getElementById("app")
 // );
 
-ReactDOM.render(jsx, document.getElementById("app"));
+ReactDOM.render(<p>loading</p>, document.getElementById("app"));
+
+store.dispatch(startSetExpenses()).then(() => {
+    ReactDOM.render(jsx, document.getElementById("app"));
+});
