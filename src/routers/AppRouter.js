@@ -1,30 +1,43 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
+import createHistory from "history/createBrowserHistory";
 import EditExpensePage from "../components/EditExpense";
 import AddExpensePage from "../components/AddExpensePage";
 import { AddHelpPage } from "../components/AddHelpPage";
 import { ExpenseDashboardPage } from "../components/ExpenseDashboardPage";
 import { NotFoundPage } from "../components/NotFoundPage";
-import { Header } from "../components/Header";
-import Login from "../components/login";
+import LoginPage from "../components/LoginPage";
+import PrivateRoute from "./PrivateRoute";
+import PublicRoute from "./PublicRoute";
+
+export const history = createHistory();
 
 const AppRouter = () => (
-    <BrowserRouter>
+    <Router history={history}>
         <div>
-            <Header />
             <Switch>
-                <Route path="/" component={Login} exact={true}></Route>
-                <Route
+                <PublicRoute
+                    path="/"
+                    component={LoginPage}
+                    exact={true}
+                ></PublicRoute>
+                <PrivateRoute
                     path="/dashboard"
                     component={ExpenseDashboardPage}
-                ></Route>
-                <Route path="/create" component={AddExpensePage}></Route>
-                <Route path="/edit/:id" component={EditExpensePage}></Route>
+                ></PrivateRoute>
+                <PrivateRoute
+                    path="/create"
+                    component={AddExpensePage}
+                ></PrivateRoute>
+                <PrivateRoute
+                    path="/edit/:id"
+                    component={EditExpensePage}
+                ></PrivateRoute>
                 <Route path="/help" component={AddHelpPage}></Route>
                 <Route component={NotFoundPage}></Route>
             </Switch>
         </div>
-    </BrowserRouter>
+    </Router>
 );
 
 export default AppRouter;
